@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Cucumber tag to run'
+        required: false
+        default: '@SmokeTest'
 
 
 jobs:
@@ -31,4 +36,4 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run tests with Maven
-        run: mvn clean verify
+        run: mvn clean verify -Dcucumber.filter.tags="${{ github.event.inputs.tag }}"
